@@ -3,7 +3,7 @@
 Ruby gem to parse MenuMarkup. See the [MenuMarkup specification](http://www.webuildinternet.com/2012/07/04/menu-markup-specification/).
 
 MenuMarkup is a super simple markup to specify menu data in plain text. When the MenuMarkup is parsed it creates a Menu.
-A Menu consists of two types: [Items](#items) and [Sections](#sections). Items have multiple [Prices](#prices).
+A Menu consists of two types: Items and Sections. Items have multiple Prices.
 
 ## Installation
 
