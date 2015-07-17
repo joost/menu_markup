@@ -1,0 +1,77 @@
+grammar MenuMarkup
+  rule root
+    s menu
+  end
+
+  rule menu
+    (section / item)*
+  end
+
+  rule subsections
+    (subsection / item)*
+  end
+
+  rule subsubsections
+    (subsubsection / item)*
+  end
+
+  rule items do
+    item*
+  end
+
+  rule section
+    s '*' choice_node:choice attributes_node:(attributes '*')? s description_node:description children_nodes:subsections <MenuMarkupParser::Section>
+  end
+
+  rule subsection
+    s '**' choice_node:choice attributes_node:(attributes '**')? s description_node:description children_nodes:subsubsections <MenuMarkupParser::Section>
+  end
+
+  rule subsubsection
+    s '***' choice_node:choice attributes_node:(attributes '***')? s description_node:description children_nodes:items <MenuMarkupParser::Section>
+  end
+
+  rule item
+    s '-' attributes_node:(attributes '-')? s description_node:description <MenuMarkupParser::Item>
+  end
+
+  rule choice
+    '/'?
+  end
+
+  rule attributes
+    [vVhknmMH]* <MenuMarkupParser::Attributes>
+  end
+
+  rule price
+    s '=' s text_node:text_line
+  end
+
+  rule description
+    description_line*
+  end
+
+  rule description_line
+    text:([^-*#] text_line) s
+  end
+
+  rule s #optional space
+    S?
+  end
+
+  rule S # mandatory space
+    (comment / whitespace)+
+  end
+
+  rule whitespace
+    [\s]+
+  end
+
+  rule comment
+    '#' text_line
+  end
+
+  rule text_line
+    [^\r\n]*
+  end
+end

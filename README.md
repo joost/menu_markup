@@ -1,8 +1,11 @@
 # MenuMarkup
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/menu_markup`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ruby gem to parce MenuMarkup.
 
-TODO: Delete this and the text above, and describe your gem
+MenuMarkup is a super simple markup to specify menu data in plain text. When the MenuMarkup is parsed it creates a Menu.
+A Menu consists of two types: [Items](#items) and [Sections](#sections). Items have multiple [Prices](#prices).
+
+For more info see [www.webuildinternet.com/2012/07/04/menu-markup-specification/](http://www.webuildinternet.com/2012/07/04/menu-markup-specification/).
 
 ## Installation
 
@@ -22,13 +25,60 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+parser = MenuMarkupParser.new
+parser.parse("*Some\n-Menu\n-Markup")
+```
 
-## Development
+or
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+MenuMarkup.parse("*Some\n-Menu\n-Markup")
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Next you should create some logic around the parsed content.
+In the example below we have Entry, Item and Price ActiveRecord models.
+
+```ruby
+result = parser.parse(text)
+result.menu.elements.collect { |element| build_entry(element) } if result
+
+def build_entry(element)
+  entry = send("build_#{element.class.to_s.demodulize.underscore}", element) # Calls build_xx method
+  entry.menu = self # All models belong_to a Menu
+  entry.entries = element.children.collect { |subelement| build_entry(subelement) }
+
+  unless entry.valid?
+    line = parser.input.line_of(element.interval.first)
+    type = entry.class.name.humanize.downcase
+    errors.add(:markup_text, "has invalid #{type} on line ##{line}: #{entry.errors.to_a.to_sentence}")
+  end
+
+  entry
+end
+```
+
+Define the build_xx methods and use the parsed element content.
+
+```ruby
+def build_section(element)
+  Section.new(title: element.title, desc: element.description, choice: element.choice?, prices: build_prices(element))
+end
+
+def build_item(element)
+  Item.new(title: element.title, desc: element.description, spicy: element.spicy, prices: build_prices(element),
+           restriction_list: element.restrictions)
+end
+
+def build_prices(element)
+  # Up to the reader :)
+end
+```
+
+## Developing
+
+    bundle install
+    guard
 
 ## Contributing
 

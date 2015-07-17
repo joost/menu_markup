@@ -26,6 +26,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "treetop", "~> 1.4.15"
+  spec.add_dependency "activesupport" # for #presence method
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-collection_matchers"
+  spec.add_development_dependency "guard"
+  spec.add_development_dependency "guard-rspec"
 end
