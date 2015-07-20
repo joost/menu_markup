@@ -1,4 +1,4 @@
-# MenuMarkup
+# MenuMarkup [![Build Status](https://api.travis-ci.org/refreshingmenus/menu_markup.svg?branch=master)](https://travis-ci.org/refreshingmenus/menu_markup) [![Coverage Status](https://coveralls.io/repos/refreshingmenus/menu_markup/badge.svg)](https://coveralls.io/r/refreshingmenus/menu_markup)
 
 Ruby gem to parse MenuMarkup. See the [MenuMarkup specification](http://www.webuildinternet.com/2012/07/04/menu-markup-specification/).
 
