@@ -1,6 +1,6 @@
 # MenuMarkup [![Build Status](https://api.travis-ci.org/refreshingmenus/menu_markup.svg?branch=master)](https://travis-ci.org/refreshingmenus/menu_markup) [![Coverage Status](https://coveralls.io/repos/refreshingmenus/menu_markup/badge.svg)](https://coveralls.io/r/refreshingmenus/menu_markup)
 
-Ruby gem to parse MenuMarkup. See the [MenuMarkup specification](http://www.webuildinternet.com/2012/07/04/menu-markup-specification/).
+Ruby gem to parse MenuMarkup. See the [MenuMarkup specification][].
 
 MenuMarkup is a super simple markup to specify menu data in plain text. When the MenuMarkup is parsed it creates a Menu.
 A Menu consists of two types: Items and Sections. Items have multiple Prices.
@@ -20,6 +20,37 @@ And then execute:
 Or install it yourself as:
 
     $ gem install menu_markup
+
+## MenuMarkup example
+
+For the full specs see the [MenuMarkup specification][].
+
+```
+# Lines with a # are comments!
+# Empty lines are ignored
+
+* Main dishes
+The main dishes can be ordered between 17.00 and 21.00.
+- Super meat 29.95 euro
+This is 500 grams of pure super meat.
+- Some other dish
+#This dish has the price on a different line. It will be parsed correctly.
+12,95
+- Daily fish
+#This differs every day and the price can also change.
+=depends
+
+*Dessert
+- Special dessert
+#This dessert has multiple sizes and prices.
+= small 12,30
+= large 23,30
+- A desert for 2
+= 12,30 per person
+- 300 grams of chocolate
+#To not make the price 300 we specify an empty price using '='.
+=
+```
 
 ## Usage
 
@@ -73,7 +104,7 @@ def build_prices(element)
 end
 ```
 
-## Developing
+## Development
 
     bundle install
     guard
@@ -85,3 +116,5 @@ end
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+[MenuMarkup specification]: http://www.webuildinternet.com/2012/07/04/menu-markup-specification/
