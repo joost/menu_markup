@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     menu_markup (0.1.0)
-      activesupport
-      treetop (~> 1.4.15)
+      activesupport (~> 4)
+      treetop (~> 1.4, >= 1.4.15)
 
 GEM
   remote: https://rubygems.org/
@@ -112,9 +112,9 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.9)
   coveralls
-  guard
-  guard-rspec
+  guard (~> 2.12)
+  guard-rspec (~> 4.6)
   menu_markup!
-  rake (~> 10.0)
-  rspec
-  rspec-collection_matchers
+  rake (~> 10.4)
+  rspec (~> 3.3)
+  rspec-collection_matchers (~> 1.1, >= 1.1.2)
